@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 require("dotenv").config({path:__dirname+'/routes/.env'});
 
     const dbConnect = () => {
-    mongoose.connect(process.env.DATABASE_URL,{
+    mongoose.connect(process.env.DATABASE_URL_1,{
     useNewUrlParser:true,
     useUnifiedTopology:true,
 })

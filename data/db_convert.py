@@ -3,6 +3,7 @@ from pymongo import MongoClient
 
 # Read CSV file into a pandas DataFrame
 data = pd.read_csv('team_ratings.csv')
+data['team_id'] = data['team_id'].astype(str)
 print(data.dtypes)
 
 

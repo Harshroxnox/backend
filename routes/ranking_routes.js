@@ -9,6 +9,8 @@ const{tournament_rankings} = require("../controllers/tournament_rankings");
 //define api routes
 router.get("/global_rankings",global_rankings);
 router.get("/team_rankings",team_rankings);
-router.get("/tournament_rankings",tournament_rankings);
+
+// This is route is currently under development
+// router.get("/tournament_rankings",tournament_rankings);
 
 module.exports = router;
