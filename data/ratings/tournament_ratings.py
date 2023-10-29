@@ -118,6 +118,7 @@ for row in data.itertuples():
                 if dictionary["inner_count"] == inner_count:
                     fluctuation = dictionary["fluctuation"]
                     found_fluctuation = 1
+                    print("found_fluctuation")
 
             if found_fluctuation == 0:
                 fluctuation = predict(rating_a, rating_b, rating_diff, inner_row.result)
@@ -127,7 +128,6 @@ for row in data.itertuples():
                 }
                 fluctuations_arr.append(new_fluctuation)
 
-            print(fluctuations_arr)
             # Update the ratings in the ratings arr
             if inner_row.result == 1:
                 ratings[index_a][1] += fluctuation
