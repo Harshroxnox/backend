@@ -72,6 +72,7 @@ def get_rating_and_index(team_id):
 
 
 count = 0
+fluctuations_arr = []
 for row in data.itertuples():
     count = count+1
     print(f'count: {count}')
@@ -93,6 +94,7 @@ for row in data.itertuples():
     start_date = int(start_date)
     # Reinitialize ratings arr
     ratings = []
+
     inner_count = 0
     for inner_row in data.itertuples():
         inner_count = inner_count+1
@@ -111,8 +113,21 @@ for row in data.itertuples():
                 rating_diff = rating_b - rating_a
 
             # Get the fluctuation of the model
-            fluctuation = predict(rating_a, rating_b, rating_diff, inner_row.result)
+            found_fluctuation = 0
+            for dictionary in fluctuations_arr:
+                if dictionary["inner_count"] == inner_count:
+                    fluctuation = dictionary["fluctuation"]
+                    found_fluctuation = 1
 
+            if found_fluctuation == 0:
+                fluctuation = predict(rating_a, rating_b, rating_diff, inner_row.result)
+                new_fluctuation = {
+                    "inner_count": inner_count,
+                    "fluctuation": fluctuation
+                }
+                fluctuations_arr.append(new_fluctuation)
+
+            print(fluctuations_arr)
             # Update the ratings in the ratings arr
             if inner_row.result == 1:
                 ratings[index_a][1] += fluctuation
