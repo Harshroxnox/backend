@@ -3,7 +3,7 @@
 # starting of the tournament and returns the ranking of teams based on the previous six months
 # data.
 # It stores all the rankings data for each tournament in a mongodb database(mongodb instance must
-# be running) the db name is tournament_ratings and in there collections will be named after the
+# be running) the db name is tournament_ratings and in their collections will be named after the
 # tournament Id for which they will contain the rankings of the teams.
 import tensorflow as tf
 import pandas as pd
@@ -89,17 +89,21 @@ for row in data.itertuples():
     input_date = datetime.strptime(str(row.startDate), "%Y%m%d")
     # start date which is date of six months ago
     start_date = input_date - timedelta(days=30 * 6)
-    start_date = int(start_date.strftime("%Y%m%d"))
+    start_date = start_date.strftime("%Y%m%d")
+    start_date = int(start_date)
     # Reinitialize ratings arr
     ratings = []
     inner_count = 0
     for inner_row in data.itertuples():
         inner_count = inner_count+1
-        print(f'inner_count: {inner_count}')
-
         curr_date = int(inner_row.startDate)
+        print(f'inner_count: {inner_count}')
+        print(f'start_date: {start_date}')
+        print(f'curr_date: {curr_date}')
+        print(f'end_date: {end_date}')
+
         # Only consider that row if curr_date lies between start and end date.
-        if (curr_date >= start_date) and (curr_date < end_date):
+        if start_date <= curr_date < end_date:
             # Extract all the parameters
             rating_a, index_a = get_rating_and_index(inner_row.teamA)
             rating_b, index_b = get_rating_and_index(inner_row.teamB)
