@@ -98,9 +98,6 @@ for row in data.itertuples():
         inner_count = inner_count+1
         curr_date = int(inner_row.startDate)
         print(f'inner_count: {inner_count}')
-        print(f'start_date: {start_date}')
-        print(f'curr_date: {curr_date}')
-        print(f'end_date: {end_date}')
 
         # Only consider that row if curr_date lies between start and end date.
         if start_date <= curr_date < end_date:
