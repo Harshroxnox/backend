@@ -11,6 +11,6 @@ router.get("/global_rankings",global_rankings);
 router.get("/team_rankings",team_rankings);
 
 // This is route is currently under development
-// router.get("/tournament_rankings",tournament_rankings);
+ router.get("/tournament_rankings/:tournament_id",tournament_rankings);
 
 module.exports = router;

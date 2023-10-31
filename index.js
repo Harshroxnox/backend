@@ -8,11 +8,8 @@ const PORT = process.env.PORT||9000;
 //middleware to parse json request body
 app.use(express.json());
 
-//import routes for todo api
+//import routes for rankings api
 const ranking_routes = require("./routes/ranking_routes");
-
-//mount the todo apis
-//app.use("/api/v1",todoroutes);
 
 //server start
 app.listen(PORT,()=>{
@@ -20,12 +17,21 @@ app.listen(PORT,()=>{
 })
 
 //connect to database
-const dbConnect = require("./config/database");
-dbConnect();
+//const dbConnect = require("./config/database");
+
+//connecting to backend_db which is used for first two routes
+//dbConnect(process.env.DATABASE_URL_1);
+//console.log('connecting to backend_db')
+
+//connecting to tournament_ratings which is used for the third route
+//dbConnect(process.env.DATABASE_URL_2);
+//console.log('connecting to tournament_ratings')
 
 //default route
 app.get("/",(req,res)=>{
-    res.send('<h1> this is homepage baby</h1>'); 
+    res.send('<h1> this is homepage</h1>'); 
 })
 
+//configure the app to use the app
 app.use("/", ranking_routes);
+
