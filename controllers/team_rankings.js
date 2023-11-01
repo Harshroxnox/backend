@@ -1,22 +1,28 @@
-const mongoose = require("mongoose");
-const dbConnect = require("../config/database");
-require("dotenv").config({path:__dirname+'/routes/.env'});
+const { MongoClient } = require('mongodb');
 
+const client1 = new MongoClient('mongodb://localhost:27017/backend_db');
 
 exports.team_rankings = async (req, res) => {
-
-    dbConnect(process.env.DATABASE_URL_1);
-    const Team = require("../models/Team");
-
-    const teamName = req.query.name||[];
+    
+    const teamIds = req.query.team_ids||[];
     
     try {
-      const teamRankings = await Team.find({ name: { $in: teamName }  }); 
-      mongoose.connection.close();
+
+      // Connect to mongodb database
+      await client1.connect();
+    
+      // Connect to the database and the collection
+      const backend_db = client1.db();
+      const collection_backend = backend_db.collection("team_ratings");
+
+      // Run the query to find the teams by their ids
+      const teamRankings = await collection_backend.find({ team_id: { $in: teamIds }  }).sort({ rating: -1 }).toArray(); 
+      client1.close();
+      
       res.json(teamRankings);
   
     } catch (error) {
-      mongoose.connection.close();
+
       res.send(error)
     }
   }

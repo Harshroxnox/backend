@@ -1,29 +1,28 @@
-const mongoose = require("mongoose");
-const dbConnect = require("../config/database");
-require("dotenv").config({path:__dirname+'/routes/.env'});
+const { MongoClient } = require('mongodb');
+
+const client1 = new MongoClient('mongodb://localhost:27017/backend_db');
 
 exports.global_rankings = async (req, res) => {
-
-  // Connect to mongodb database
-  dbConnect(process.env.DATABASE_URL_1);
-  const Team = require("../models/Team");
-  
+  // Get the number of teams to display
   const numberOfTeams = req.query.number_of_teams || 20;
-  try {
-    const globalRankings = await Team.find({}).sort({ rating: -1 }).limit(numberOfTeams);
-      
-    const formattedRankings = globalRankings.map(team => {
-      return {
-          ...team._doc,
-          name: team.name + ' ' // Add a space after the team name
-      };
-    });
-    mongoose.connection.close();
-    res.json(formattedRankings);
 
+  try {
+
+    // Connect to mongodb database
+    await client1.connect();
+
+    // Connect to the database and the collection
+    const backend_db = client1.db();
+    const collection_backend = backend_db.collection("team_ratings");
+  
+    // Running the query to get top numberOfTeams teams sorted by rating
+    const globalRankings = await collection_backend.find({}).sort({ rating: -1 }).limit(numberOfTeams).toArray();
+    client1.close();
+
+    // Sending that as a response
+    res.json(globalRankings);
 
   } catch (error) {
-      await mongoose.connection.close();
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: "Internal Server Error" });
   }
 }
