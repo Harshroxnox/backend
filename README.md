@@ -61,3 +61,8 @@ You can start the server on localhost:3000 by running the command:
 ```console
 npm run dev
 ```
+# Our Project is Deployed on:
+- The project is currently hosted on an AWS EC2 instance running our nodejs backend API. You can access our project on the link given below:-
+- http://43.205.117.184:3000/ 
+- If you want to get the global rankings you can follow the link below:-
+- http://43.205.117.184:3000/global_rankings
